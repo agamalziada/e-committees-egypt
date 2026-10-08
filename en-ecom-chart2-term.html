@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>From &quot;National Party Committees&quot; to &quot;State Committees&quot;: A Term&#x27;s Path and the State&#x27;s Tools</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--blue:#378ADD;--coral:#D85A30;--teal:#1D9E75;--amber:#BA7517;--gray:#888780;--ink:#2c2c2a;--muted:#5f5e5a;--paper:#f1efe8;--rule:rgba(0,0,0,.1);}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:"Inter",sans-serif;background:#fff;color:var(--ink);direction:ltr;}
+  #root{padding:clamp(12px,3vw,20px);}
+  .hdr{border-left:3px solid #378ADD;padding-left:10px;margin-bottom:10px;}
+  .tag{font-size:clamp(9px,2vw,10px);font-weight:700;letter-spacing:.06em;color:var(--gray);margin-bottom:2px;}
+  .title{font-size:clamp(13px,3.5vw,15px);font-weight:700;line-height:1.4;margin-bottom:2px;}
+  .subtitle{font-size:clamp(11px,2.5vw,12px);color:var(--muted);line-height:1.5;}
+  .callout{background:var(--paper);border-left:3px solid #378ADD;padding:8px 11px;font-size:clamp(11px,2.5vw,12px);color:var(--muted);line-height:1.6;margin:9px 0;font-style:italic;}
+  .source{font-size:clamp(9px,2vw,10px);color:var(--gray);margin-top:10px;line-height:1.5;}
+  .cards{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
+  .card{flex:1;min-width:min(100px,44%);border-radius:8px;padding:clamp(9px,2.5vw,12px) clamp(10px,3vw,13px);text-align:center;}
+  .card.wide{flex-basis:100%;}
+  .c-k{font-size:clamp(9px,2.2vw,10px);color:var(--muted);margin-bottom:3px;line-height:1.4;}
+  .c-v{font-size:clamp(19px,5.2vw,25px);font-weight:800;line-height:1.15;}
+  .c-u{font-size:clamp(9px,2vw,10px);color:var(--gray);margin-top:2px;line-height:1.45;}
+  .c-d{display:inline-block;font-size:clamp(8px,1.9vw,9px);font-weight:700;color:var(--gray);border:1px solid var(--rule);border-radius:10px;padding:1px 7px;margin-top:5px;}
+  .chart{position:relative;width:100%;}
+  .note{margin-top:10px;border-left:3px solid #D85A30;padding:9px 12px;border-radius:0 6px 6px 0;background:#faece7;}
+  .note p{font-size:clamp(11px,2.8vw,12px);color:#993C1D;line-height:1.6;}
+  .dark{margin-top:10px;background:#2c2c2a;border-radius:7px;padding:9px 12px;}
+  .dark p{font-size:clamp(11px,2.8vw,12px);color:rgba(255,255,255,.82);line-height:1.6;}
+  .dark strong{color:#F0997B;}
+  .legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin:2px 0 10px;}
+  .legend span{display:inline-flex;align-items:center;gap:6px;font-size:clamp(9px,2.2vw,10px);color:var(--muted);}
+  .legend i{width:10px;height:10px;border-radius:2px;display:inline-block;flex-shrink:0;}
+  .tl-row{display:flex;gap:10px;align-items:stretch;}
+  .tl-date{flex-shrink:0;text-align:center;width:clamp(58px,16vw,78px);padding-top:6px;}
+  .tl-date span{font-size:clamp(9px,2.2vw,10px);font-weight:700;display:block;line-height:1.3;}
+  .tl-axis{flex-shrink:0;width:10px;display:flex;flex-direction:column;align-items:center;padding-top:9px;}
+  .tl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+  .tl-line{width:2px;flex:1;background:var(--rule);margin-top:3px;}
+  .tl-body{flex:1;background:var(--paper);border-radius:6px;padding:7px 10px;margin-bottom:8px;}
+  .tl-body p{font-size:clamp(10px,2.5vw,11px);line-height:1.6;}
+  .cols{display:flex;gap:12px;flex-wrap:wrap;}
+  .col{flex:1;min-width:min(240px,100%);}
+  .col-h{font-size:clamp(10px,2.5vw,11px);font-weight:800;margin-bottom:8px;padding-bottom:5px;border-bottom:2px solid var(--rule);}
+  .rows{display:flex;flex-direction:column;gap:6px;}
+  .row{border-radius:7px;padding:8px 10px;display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--paper);}
+  .row .r-k{font-size:clamp(10px,2.5vw,11px);font-weight:700;line-height:1.45;}
+  .row .r-s{font-size:clamp(9px,2.2vw,10px);color:var(--muted);line-height:1.45;}
+  .row .r-v{font-size:clamp(10px,2.5vw,11px);font-weight:800;white-space:nowrap;}
+  .pill-list{display:flex;flex-wrap:wrap;gap:5px;}
+  .pill-list span{font-size:clamp(9px,2.2vw,10px);border-radius:12px;padding:3px 9px;line-height:1.5;}
+  @media(prefers-color-scheme:dark){
+    :root{--ink:#d3d1c7;--muted:#b4b2a9;--paper:#2c2c2a;--rule:rgba(255,255,255,.12);}
+    body{background:#1a1a18;}
+    .card,.row{background:#2c2c2a!important;}
+    .note{background:#3a2620;}
+    .note p{color:#F0997B;}
+    .dark{background:#000;}
+  }
+</style>
+</head>
+<body>
+<div id="root">
+  <div class="hdr">
+    <p class="tag">Zawia3 · Infographic ② of ⑥</p>
+    <p class="title">From "National Party Committees" to "State Committees": A Term's Path and the State's Tools</p>
+    <p class="subtitle">How the accused party behind "electronic committees" shifted in the Egyptian press, and what the state built in parallel</p>
+  </div>
+  <div class="callout">Overuse turned the term into an "empty signifier" thrown at any hashtag criticizing the government, and the ambiguity itself is a tool of digital authoritarianism</div>
+<div class="cols">
+<div class="col"><p class="col-h" style="color:#D85A30">The term in the press (110 items, 2011–2021)</p>
+<div style="margin-bottom:4px">
+<div class="tl-row"><div class="tl-date"><span style="color:#888780">26 Feb 2011</span></div><div class="tl-axis"><div class="tl-dot" style="background:#888780"></div><div class="tl-line"></div></div><div class="tl-body"><p>First reference, in Youm7: pro-Mubarak National Democratic Party committees</p></div></div>
+<div class="tl-row"><div class="tl-date"><span style="color:#BA7517">2012–2013</span></div><div class="tl-axis"><div class="tl-dot" style="background:#BA7517"></div><div class="tl-line"></div></div><div class="tl-body"><p>During Morsi's year in power the charge moves to the Brotherhood, with Khairat El-Shater its "mastermind"</p></div></div>
+<div class="tl-row"><div class="tl-date"><span style="color:#D85A30">Since 2016</span></div><div class="tl-axis"><div class="tl-dot" style="background:#D85A30"></div><div class="tl-line"></div></div><div class="tl-body"><p>Pro-government papers openly celebrate state-backed committees, including a group led by Sherif Khairy</p></div></div>
+<div class="tl-row"><div class="tl-date"><span style="color:#D85A30">Later</span></div><div class="tl-axis"><div class="tl-dot" style="background:#D85A30"></div></div><div class="tl-body"><p>Official discourse returns to blaming the Brotherhood, Turkey and Qatar for every opposition hashtag</p></div></div>
+</div>
+</div>
+<div class="col"><p class="col-h" style="color:#378ADD">The state's official tools</p>
+<div style="margin-bottom:4px">
+<div class="tl-row"><div class="tl-date"><span style="color:#378ADD">Jun 2014</span></div><div class="tl-axis"><div class="tl-dot" style="background:#378ADD"></div><div class="tl-line"></div></div><div class="tl-body"><p>Interior Ministry tender for a "social networks security risk monitoring" system</p></div></div>
+<div class="tl-row"><div class="tl-date"><span style="color:#378ADD">2014</span></div><div class="tl-axis"><div class="tl-dot" style="background:#378ADD"></div><div class="tl-line"></div></div><div class="tl-body"><p>Supreme Cybersecurity Council, with a committee to follow cyberspace and monitor "deviant" opinions</p></div></div>
+<div class="tl-row"><div class="tl-date"><span style="color:#378ADD">2019</span></div><div class="tl-axis"><div class="tl-dot" style="background:#378ADD"></div></div><div class="tl-body"><p>Public Prosecutor's decree 2376 creates an office that opens social media accounts and acts as a "watchtower"</p></div></div>
+</div>
+</div>
+</div>
+  <p class="source">Source: Nermeen El-Sherif and Tarek Anwar, International Journal of Communication (2024); Legal Agenda (2014); Bassant Hassib and James Shires, Journal of Cybersecurity (2021); Arab Center for Research and Policy Studies (2020)</p>
+</div>
+<script>
+(function(){
+  function notify(){var h=document.getElementById("root").offsetHeight;window.parent.postMessage({type:"chartResize",height:h},"*");}
+  setTimeout(notify,1400);window.addEventListener("resize",notify);
+  try{new ResizeObserver(function(){setTimeout(notify,80);}).observe(document.body);}catch(e){}
+})();
+</script>
+</body></html>
