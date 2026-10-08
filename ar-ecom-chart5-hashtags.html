@@ -20,6 +20,10 @@
   .cards{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
   .card{flex:1;min-width:min(100px,44%);border-radius:8px;padding:clamp(9px,2.5vw,12px) clamp(10px,3vw,13px);text-align:center;}
   .card.wide{flex-basis:100%;}
+  .cards.g3{display:grid;grid-template-columns:repeat(3,1fr);}
+  .cards.g2{display:grid;grid-template-columns:repeat(2,1fr);}
+  .cards.g3 .card,.cards.g2 .card{min-width:0;}
+  @media(max-width:560px){.cards.g3{grid-template-columns:repeat(2,1fr);}}
   .c-k{font-size:clamp(9px,2.2vw,10px);color:var(--muted);margin-bottom:3px;line-height:1.4;}
   .c-v{font-size:clamp(19px,5.2vw,25px);font-weight:800;line-height:1.15;}
   .c-u{font-size:clamp(9px,2vw,10px);color:var(--gray);margin-top:2px;line-height:1.45;}
@@ -102,6 +106,7 @@ var Z3=(function(){
 <div class="note"><p>21 حسابًا نشطًا لاحظ المختبر تنسيقًا بين 12 منها على الأقل، ووصفها بأنها «موالية للحكومة» و«غير أصيلة على الأرجح» من دون أن يقول إن الدولة تديرها</p></div>
 <script>
 (function(){var C=Z3.C,tip=Z3.tip,RTL=Z3.RTL,F=Z3.F,n=Z3.n;
+function draw(){
 var lab=[["#هندعم_السيسي_ل2030","تقرير 23 مارس 2023"],["#كل_الدعم_لرجال_الشرطة","تقرير 23 مارس 2023"],["#مصر_تدعم_حقوق_الانسان","تقرير 31 مايو 2023"],["وسم ساخر من «صحيح مصر»","تقرير 23 مارس 2023"]],fl=["نحو 55,400 تغريدة","نحو 10,600 تغريدة","1,084 إشارة من 352 مستخدمًا","نحو ألف تغريدة"];
 new Chart(document.getElementById("c"),{type:"bar",
  data:{labels:lab,datasets:[{data:[55400,10600,1084,1000],backgroundColor:[C.coral,C.amber,C.teal,C.blue],borderWidth:0,borderRadius:5,barPercentage:.72,minBarLength:3}]},
@@ -109,9 +114,13 @@ new Chart(document.getElementById("c"),{type:"bar",
  plugins:{legend:{display:false},tooltip:Object.assign({},tip,{callbacks:{label:function(c){return " "+fl[c.dataIndex];}}}),vl:{fmt:function(v,j){return fl[j];}}},
  scales:{x:{reverse:RTL,min:0,max:60000,ticks:{color:C.tc,font:{size:10},callback:function(v){return (v/1000)+"k";}},grid:{color:C.gc},border:{display:false}},
  y:{position:RTL?"right":"left",ticks:{color:C.ink,font:{size:10}},grid:{display:false},border:{color:C.gc}}}}});
+}
+var done=false;function go(){if(done)return;done=true;draw();}
+try{document.fonts.load('700 12px "'+F+'"').then(function(){return document.fonts.ready;}).then(go,go);}catch(e){go();}
+setTimeout(go,1800);
 })();
 </script>
-  <p class="source">المصدر: مختبر الأبحاث الرقمية في المجلس الأطلسي (DFRLab)، 23 مارس و31 مايو و19 أكتوبر 2023</p>
+  <p class="source">المصدر: مختبر الأبحاث الرقمية في المجلس الأطلسي (DFRLab)&rlm;، 23 مارس و31 مايو و19 أكتوبر 2023</p>
 </div>
 <script>
 (function(){
